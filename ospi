@@ -14,7 +14,15 @@ deb http://mirrors.shu.edu.cn/raspbian/raspbian/ stretch main contrib non-free
 
 5.再运行该命令：sudo apt-get update && sudo apt-get -y dist-upgrade && sudo apt-get update
 
+sudo apt-get install vim 
+sudo apt-get install lsof
+
+
 sudo apt remove openjdk-8-jdk-headless:armhf ca-certificates-java openjdk-8-jre-headless:armhf openjdk-8-jre:armhf default-jre-headless
 sudo apt-get install ca-certificates-java
 sudo apt-get install openjdk-8-jre-headless
 sudo apt-get install openjdk-8-jre # Optional, enables Java GUI apps
+
+
+sudo apt-get install ffmpeg
+sudo apt-get install nginx 
