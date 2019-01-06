@@ -25,7 +25,7 @@ sudo apt-get install openjdk-8-jre # Optional, enables Java GUI apps
 
 
 sudo apt-get install ffmpeg
-sudo apt-get install nginx 
+
 
 
 开机启动
@@ -35,3 +35,82 @@ sudo nano /etc/rc.local
 在文件末尾 , exit 0 这一行之前，加入需要启动的命令 : 
 
 sudo /home/pi/tomcat/bin/startup.sh #自己定义的命令即可 如 : sudo /home/pi/startMyProgram.sh
+
+
+#install nginx  
+01 安装 nginx 和 nginx-rtmp 编译依赖工具
+sudo apt-get install build-essential libpcre3 libpcre3-dev libssl-dev
+02 创建工作目录
+mkdir ~/nginx-rtmp
+cd ~/nginx-rtmp
+
+03 下载nginx 和nginx-rtmp源码
+wget http://nginx.org/download/nginx-1.10.3.tar.gz
+wget https://github.com/arut/nginx-rtmp-module/archive/v1.1.10.tar.gz
+
+04 解压
+tar -zxvf nginx-1.10.3.tar.gz
+tar -zxvf v1.1.10.tar.gz
+
+05 切换目录
+cd nginx-1.10.3
+
+06 编译nginx-rtmp模块到nginx
+./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-1.1.10
+
+07 编译安装
+make
+sudo make install
+
+08 配置 nginx-rtmp 服务器
+打开 /usr/local/nginx/conf/nginx.conf 
+在末尾添加如下 配置
+
+rtmp {
+    server {
+        listen 1122;
+        chunk_size 4096;
+        ping 30s;
+        notify_method get;
+        application hls {
+            live on;
+            hls on;
+            hls_path /var/www/hls;
+            hls_fragment 5s;
+            hls_cleanup off;
+        }
+    }
+}
+
+http节点添加
+#HLS配置开始,这个配置为了`客户端`能够以http协议获取HLS的拉流
+        location /hls {
+            # Serve HLS fragments
+            types {
+                application/vnd.apple.mpegurl m3u8;
+                video/mp2t ts;
+            }
+            root html;
+            add_header Cache-Control no-cache;
+        }
+#HLS配置结束        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
