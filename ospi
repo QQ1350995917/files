@@ -26,3 +26,12 @@ sudo apt-get install openjdk-8-jre # Optional, enables Java GUI apps
 
 sudo apt-get install ffmpeg
 sudo apt-get install nginx 
+
+
+开机启动
+修改 rc.local 文件 , 命令如下 : 
+
+sudo nano /etc/rc.local
+在文件末尾 , exit 0 这一行之前，加入需要启动的命令 : 
+
+sudo /home/pi/tomcat/bin/startup.sh #自己定义的命令即可 如 : sudo /home/pi/startMyProgram.sh
