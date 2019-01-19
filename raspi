@@ -129,6 +129,22 @@ sudo make install
 打开 /usr/local/nginx/conf/nginx.conf 
 在末尾添加如下 配置
 
+
+
+
+
+
+# https://www.jianshu.com/p/ef23a1b88c22
+# 挂载NTFS格式的硬盘(读写方式挂载)
+# 默认挂载NTFS格式的硬盘只有只读权限，需要借助其它工具实现。
+sudo aptitude install ntfs-3g
+# 加载内核模块
+modprobe fuse
+sudo vim /etc/fstab
+/dev/sda1  /home/pi/toshiba ntfs-3g defaults,noexec,umask=0000 0 0
+
+
+
 rtmp {
     server {
         listen 1122;
